@@ -29,21 +29,6 @@ import numpy
 import sklearn
 
 
-def generate_random(n_values, min_value, max_value):
-    """
-    Generate an array of random values for testing.
-
-    Args:
-        n_values: The number of random values to generate
-        min_value: Define the lower bound of the range to use
-        max_value: Define the upper bound of the range to use
-
-    Returns:
-        A list containing 'n_values' random values in the range
-        between 'min_value' and 'max_value'
-    """
-    return random.sample(xrange(min_value, max_value), n_values)
-
 def bootstrap(dataset, confidence=0.95, iterations=10000,
               sample_size=1.0, statistic=numpy.mean):
     """
@@ -79,10 +64,25 @@ def bootstrap(dataset, confidence=0.95, iterations=10000,
 
     return (lval, uval)
 
-def main():
+def test():
     """
-    A simple example with randomly generated test data.
+    A simple test with randomly generated data
     """
+    def generate_random(n_values, min_value, max_value):
+        """
+        Generate an array of random values for testing.
+
+        Args:
+            n_values: The number of random values to generate
+            min_value: Define the lower bound of the range to use
+            max_value: Define the upper bound of the range to use
+
+        Returns:
+            A list containing 'n_values' random values in the range
+            between 'min_value' and 'max_value'
+        """
+        return random.sample(xrange(min_value, max_value), n_values)
+
     # Generate some random data
     data = generate_random(1000, 1, 10000)
     # Generate confidence intervals on the mean
@@ -97,7 +97,12 @@ def main():
                              statistic=statistic)
     print('Performed %d iterations (each with %.1f%% original sample length)' %
           (iterations, sample_size * 100))
-    print('%.1f%% CI (%s): %.1f--%.1f (actual)--%.1f' %
-          (confidence * 100, statistic.__name__, lower, numpy.mean(data), upper))
+    print('%.1f%% confidence interval (%s):' %
+          (confidence * 100, statistic.__name__))
 
-main()
+    print 'lower: %.1f' % lower
+    print 'upper: %.1f' % upper
+    print 'observed: %.1f' % numpy.mean(data)
+
+if __name__ == '__main__':
+    test()

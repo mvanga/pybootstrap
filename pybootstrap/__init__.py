@@ -28,7 +28,6 @@ import random
 import numpy
 import sklearn
 
-
 def bootstrap(dataset, confidence=0.95, iterations=10000,
               sample_size=1.0, statistic=numpy.mean):
     """

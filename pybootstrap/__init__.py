@@ -28,6 +28,7 @@ from random import sample
 import numpy as np
 from sklearn.utils import resample
 
+
 def bootstrap(dataset, confidence=0.95, iterations=10000,
               sample_size=1.0, statistic=np.mean):
     """
@@ -63,6 +64,7 @@ def bootstrap(dataset, confidence=0.95, iterations=10000,
 
     return (lval, uval)
 
+
 def test():
     """
     A simple test with randomly generated data
@@ -93,17 +95,15 @@ def test():
                              confidence=confidence,
                              iterations=iterations,
                              sample_size=sample_size,
- 
                              statistic=statistic)
-    
-    
-    print('Performed %d iterations (each with %.1f%% original sample length)' %
-          (iterations, sample_size * 100))
-    print('%.1f%% confidence interval (%s):' %
-          (confidence * 100, statistic.__name__))
-    print'lower: %.1f' % lower
-    print 'upper: %.1f' % upper
-    print 'observed: %.1f' % numpy.mean(data)
+
+    print('Performed {} iterations (each with {}% original sample length)'.format(
+        iterations, sample_size*100))
+    print('{:3.1f}% confidence interval ({:s}):'.format(
+        confidence*100, statistic.__name__))
+    print('lower: {:.1f}'.format(lower))
+    print('upper: {:.1f}'.format(upper))
+    print('observed: {:.1f}'.format(np.mean(data)))
 
 
 if __name__ == '__main__':

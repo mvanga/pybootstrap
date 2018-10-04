@@ -80,7 +80,7 @@ def test():
             A list containing 'n_values' random values in the range
             between 'min_value' and 'max_value'
         """
-        return random.sample(xrange(min_value, max_value), n_values)
+        return random.sample(range(min_value, max_value), n_values)
 
     # Generate some random data
     data = generate_random(1000, 1, 10000)
@@ -98,10 +98,10 @@ def test():
           (iterations, sample_size * 100))
     print('%.1f%% confidence interval (%s):' %
           (confidence * 100, statistic.__name__))
-
-    print 'lower: %.1f' % lower
+    print'lower: %.1f' % lower
     print 'upper: %.1f' % upper
     print 'observed: %.1f' % numpy.mean(data)
+
 
 if __name__ == '__main__':
     test()

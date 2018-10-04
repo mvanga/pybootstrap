@@ -24,12 +24,12 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 """
 
-import random
-import numpy
-import sklearn
+from random import sample
+import numpy as np
+from sklearn.utils import resample
 
 def bootstrap(dataset, confidence=0.95, iterations=10000,
-              sample_size=1.0, statistic=numpy.mean):
+              sample_size=1.0, statistic=np.mean):
     """
     Bootstrap the confidence intervals for a given sample of a population
     and a statistic.
@@ -51,15 +51,15 @@ def bootstrap(dataset, confidence=0.95, iterations=10000,
 
     for _ in range(iterations):
         # Sample (with replacement) from the given dataset
-        sample = sklearn.utils.resample(dataset, n_samples=n_size)
+        sample = resample(dataset, n_samples=n_size)
         # Calculate user-defined statistic and store it
         stat = statistic(sample)
         stats.append(stat)
 
     # Sort the array of per-sample statistics and cut off ends
     ostats = sorted(stats)
-    lval = numpy.percentile(ostats, ((1 - confidence) / 2) * 100)
-    uval = numpy.percentile(ostats, (confidence + ((1 - confidence) / 2)) * 100)
+    lval = np.percentile(ostats, ((1 - confidence) / 2) * 100)
+    uval = np.percentile(ostats, (confidence + ((1 - confidence) / 2)) * 100)
 
     return (lval, uval)
 
@@ -80,7 +80,7 @@ def test():
             A list containing 'n_values' random values in the range
             between 'min_value' and 'max_value'
         """
-        return random.sample(range(min_value, max_value), n_values)
+        return sample(range(min_value, max_value), n_values)
 
     # Generate some random data
     data = generate_random(1000, 1, 10000)
@@ -88,12 +88,15 @@ def test():
     confidence = 0.95
     iterations = 1000
     sample_size = 1.0
-    statistic = numpy.mean
+    statistic = np.mean
     lower, upper = bootstrap(data,
                              confidence=confidence,
                              iterations=iterations,
                              sample_size=sample_size,
+ 
                              statistic=statistic)
+    
+    
     print('Performed %d iterations (each with %.1f%% original sample length)' %
           (iterations, sample_size * 100))
     print('%.1f%% confidence interval (%s):' %
